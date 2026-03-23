@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite+aiosqlite:///./telecom_bot.db
+      - CHROMA_PERSIST_DIRECTORY=./chroma_data
+    volumes:
+      - ./chroma_data:/app/chroma_data
+      - ./telecom_bot.db:/app/telecom_bot.db
+  chromadb:
+    image: chromadb/chroma:latest
+    ports:
+      - "8001:8000"
+    volumes:
+      - chroma_storage:/chroma/chroma
+volumes:
+  chroma_storage:
